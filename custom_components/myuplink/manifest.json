@@ -1,7 +1,7 @@
 {
   "domain": "myuplink",
   "name": "Sensors from myUplink account",
-  "documentation": "https://github.com/kayjei/",
+  "documentation": "https://github.com/kayjei/homeassistant-myuplink",
   "dependencies": [],
   "codeowners": ["kayjei"],
   "requirements": ["requests"],
