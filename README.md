@@ -10,4 +10,4 @@ sensor:
   - platform: myuplink
     api_key: YOUR_API_KEY
     api_token: YOUR_API_TOKEN
-    
+´´´
