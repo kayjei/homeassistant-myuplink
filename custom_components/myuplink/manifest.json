@@ -1,0 +1,10 @@
+{
+  "domain": "myuplink",
+  "name": "Sensors from myUplink account",
+  "documentation": "https://github.com/kayjei/",
+  "dependencies": [],
+  "codeowners": ["kayjei"],
+  "requirements": ["requests"],
+  "iot_class": "cloud_polling",
+  "version": 0.1
+}
