@@ -15,7 +15,7 @@ from homeassistant.helpers.entity import Entity
 import homeassistant.helpers.config_validation as cv
 from homeassistant.components.sensor import (PLATFORM_SCHEMA)
 from homeassistant.util import Throttle
-from homeassistant.const import (TEMP_CELSIUS, CONF_API_KEY, CONF_API_TOKEN)
+from homeassistant.const import (TEMP_CELSIUS, CONF_API_KEY, CONF_API_TOKEN, CONF_REGION)
 
 DOMAIN = "myuplink"
 
@@ -23,7 +23,8 @@ _LOGGER = logging.getLogger(__name__)
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_API_KEY): cv.string,
-    vol.Required(CONF_API_TOKEN): cv.string
+    vol.Required(CONF_API_TOKEN): cv.string,
+    vol.Optional(CONF_REGION, default="en-US"): cv.string
 })
 
 UPDATE_INTERVAL = datetime.timedelta(minutes=3)
