@@ -16,7 +16,7 @@ class myUplink:
 
         myUplink.authenticate(config)
 
-        headers = { "Accept": "text/plain", "Accept-Language": "en-US", "Authorization": "Bearer " + config["token"] }
+        headers = { "Accept": "text/plain", "Accept-Language": config["region"], "Authorization": "Bearer " + config["token"] }
 
         req = requests.get(url + '/v2/devices/' + str(device_id) + '/points', headers=headers)
 
@@ -34,7 +34,7 @@ class myUplink:
 
         myUplink.authenticate(config)
 
-        headers = { "Accept": "text/plain", "Accept-Language": "en-US", "Authorization": "Bearer " + config["token"] }
+        headers = { "Accept": "text/plain", "Accept-Language": config["region"], "Authorization": "Bearer " + config["token"] }
 
         req = requests.get(url + '/v2/devices/' + str(device_id) + '/points?parameters=' + str(sensor_id), headers=headers)
 
