@@ -65,6 +65,25 @@ class myUplink:
         return json_data
 
     @staticmethod
+    def do_patch_sensor(device_id, sensor_id: str, set_value: str, config):
+        """API request to fetch all sensors on a device"""
+
+        token = myUplink.authenticate_write(config)
+
+        headers = { "Accept": "text/plain", "Content-Type": "application/json-patch+json", "Authorization": "Bearer " + token }
+        data = { sensor_id: set_value }
+
+        req = requests.patch(url + '/v2/devices/' + str(device_id) + '/points', headers=headers, data=json.dumps(data))
+
+        if req.status_code != requests.codes.ok:
+            _LOGGER.exception("API request returned error %s", req.status_code)
+        else:
+            _LOGGER.debug("API request returned OK %s", req.text)
+
+        json_data = json.loads(req.content)
+        return json_data
+
+    @staticmethod
     def authenticate(config):
         """Authentication flow and API request"""
         headers = { "Content-Type": "application/x-www-form-urlencoded" }
@@ -96,3 +115,19 @@ class myUplink:
         
         
         return True
+
+    @staticmethod
+    def authenticate_write(config):
+        """Authentication flow and API request"""
+        headers = { "Content-Type": "application/x-www-form-urlencoded" }
+        parameters = { "grant_type": "client_credentials", "client_id": config["api_key"], "client_secret": config["api_token"], "scope": "WRITESYSTEM" }
+
+        req = requests.post(url + '/oauth/token', headers=headers, data=parameters)
+
+        if req.status_code != requests.codes.ok:
+            _LOGGER.exception("API request returned error %s", req.status_code)
+        else:
+            _LOGGER.debug("API request returned OK %s", req.text)
+            json_data = json.loads(req.content)
+        
+        return json_data["access_token"]
