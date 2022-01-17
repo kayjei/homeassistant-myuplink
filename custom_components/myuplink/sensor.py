@@ -12,26 +12,20 @@ import datetime
 from .connect import myUplink
 
 from homeassistant.helpers.entity import Entity
-import homeassistant.helpers.config_validation as cv
-from homeassistant.components.sensor import (PLATFORM_SCHEMA)
 from homeassistant.util import Throttle
-from homeassistant.const import (TEMP_CELSIUS, CONF_API_KEY, CONF_API_TOKEN, CONF_REGION)
-
-DOMAIN = "myuplink"
+from homeassistant.helpers.typing import ConfigType
+from . import DOMAIN
+from homeassistant.core import HomeAssistant
 
 _LOGGER = logging.getLogger(__name__)
 
-PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
-    vol.Required(CONF_API_KEY): cv.string,
-    vol.Required(CONF_API_TOKEN): cv.string,
-    vol.Optional(CONF_REGION, default="en-US"): cv.string
-})
-
 UPDATE_INTERVAL = datetime.timedelta(minutes=3)
 
-def setup_platform(hass, config, add_entities, discovery_info=None):
+def setup_platform(hass: HomeAssistant, config: ConfigType, add_entities, discovery_info=None):
     """Set up the sensor platform"""
     _LOGGER.debug("Adding sensor component: myUplink ...")
+    config.update({ 'api_key': hass.data[DOMAIN]['api_key'], 'api_token': hass.data[DOMAIN]['api_token'], 'region': hass.data[DOMAIN]['region'] })
+
     devices = []
     valid_devices = ['62006','62000','62011','62015','62027','62037','62168','62169','62171','62172','62173','62276']
 
@@ -45,12 +39,21 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
 
             for sensor in device_data:
                 if sensor["parameterId"] in valid_devices:
-                    devices.append(myUplinkSensor(config, device["id"], device["product"]["name"], sensor["parameterId"], sensor["parameterName"], sensor["parameterUnit"], sensor["value"]))
+                    if sensor["parameterUnit"] in ['kW', 'A']:
+                        icon = 'mdi:lightning-bolt'
+                    elif sensor["parameterUnit"] in ['°C']:
+                        icon = 'mdi:temperature-celsius'
+                    else:
+                        icon = ''
+                    update_interval = datetime.timedelta(minutes=3)
+
+                    devices.append(myUplinkSensor(config, device["id"], device["product"]["name"], sensor["parameterId"], sensor["parameterName"], sensor["parameterUnit"], icon, sensor["value"]))
 
     add_entities(devices, True)
 
 class myUplinkSensor(Entity):
-    def __init__(self, config, device_id, device_name, sensor_id, name, unit, value):
+
+    def __init__(self, config, device_id, device_name, sensor_id, name, unit, icon, value):
         self._device_id = device_id
         self._device_name = device_name
         self._sensor_id = sensor_id
@@ -58,6 +61,7 @@ class myUplinkSensor(Entity):
         self._name = name
         self._unit = unit
         self._state = value
+        self._icon = icon
         self._config = config
         self.update()
 
@@ -95,6 +99,11 @@ class myUplinkSensor(Entity):
     def state(self):
         """Return the state of the sensor"""
         return self._state
+
+    @property
+    def icon(self):
+        """Return the state of the sensor"""
+        return self._icon
 
     @property
     def extra_state_attributes(self):
