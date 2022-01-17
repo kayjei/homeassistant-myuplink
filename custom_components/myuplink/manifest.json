@@ -1,10 +1,10 @@
 {
   "domain": "myuplink",
-  "name": "Sensors from myUplink account",
+  "name": "Component for communication with myUplink account",
   "documentation": "https://github.com/kayjei/homeassistant-myuplink",
   "dependencies": [],
   "codeowners": ["kayjei"],
   "requirements": ["requests"],
   "iot_class": "cloud_polling",
-  "version": 0.2
+  "version": 0.3
 }
