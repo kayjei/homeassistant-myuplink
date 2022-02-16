@@ -27,7 +27,7 @@ def setup_platform(hass: HomeAssistant, config: ConfigType, add_entities, discov
     config.update({ 'api_key': hass.data[DOMAIN]['api_key'], 'api_token': hass.data[DOMAIN]['api_token'], 'region': hass.data[DOMAIN]['region'] })
 
     devices = []
-    valid_devices = ['62006','62000','62011','62015','62027','62037','62168','62169','62171','62172','62173','62276']
+    valid_devices = ['62006','62000','62011','62015','62027','62037','62168','62169','62171','62172','62173','62276','62107','62147']
 
     systems = myUplink.do_get_systems(config)
     for system in systems["systems"]:
