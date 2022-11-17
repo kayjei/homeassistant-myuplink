@@ -23,7 +23,7 @@ class myUplink:
         if req.status_code != requests.codes.ok:
             _LOGGER.exception("API request returned error %s", req.status_code)
         else:
-            _LOGGER.debug("API request returned OK %s", req.text)
+            _LOGGER.debug("API request returned OK")
 
         json_data = json.loads(req.content)
         return json_data
@@ -41,7 +41,7 @@ class myUplink:
         if req.status_code != requests.codes.ok:
             _LOGGER.exception("API request returned error %s", req.status_code)
         else:
-            _LOGGER.debug("API request returned OK %s", req.text)
+            _LOGGER.debug("API request returned OK %s", req.status_code)
 
         json_data = json.loads(req.content)
         return json_data
@@ -59,7 +59,7 @@ class myUplink:
         if req.status_code != requests.codes.ok:
             _LOGGER.exception("API request returned error %s", req.status_code)
         else:
-            _LOGGER.debug("API request returned OK %s", req.text)
+            _LOGGER.debug("API request returned OK %s", req.status_code)
 
         json_data = json.loads(req.content)
         return json_data
@@ -78,7 +78,7 @@ class myUplink:
         if req.status_code != requests.codes.ok:
             _LOGGER.exception("API request returned error %s", req.status_code)
         else:
-            _LOGGER.debug("API request returned OK %s", req.text)
+            _LOGGER.debug("API request returned OK %s", req.status_code)
 
         json_data = json.loads(req.content)
         return json_data

@@ -57,7 +57,7 @@ class myUplinkSensor(Entity):
         self._device_id = device_id
         self._device_name = device_name
         self._sensor_id = sensor_id
-        self._entity_id = "sensor." + str(self._device_id).lower() + '_' + str(self._sensor_id).lower()
+        self._entity_id = f"sensor.{self._device_id.lower()}_{self._sensor_id.lower()}"
         self._name = name
         self._unit = unit
         self._state = value
@@ -76,7 +76,7 @@ class myUplinkSensor(Entity):
             self._state = device["value"]
 
     @property
-    def entity_id(self):
+    def unique_id(self):
         """Return the id of the sensor"""
         return self._entity_id
 
@@ -86,7 +86,7 @@ class myUplinkSensor(Entity):
         return self._name
 
     @property
-    def unit_of_measurement(self) -> str:
+    def native_unit_of_measurement(self) -> str:
         """Return the unit of measurement."""
         return self._unit
 
@@ -96,7 +96,25 @@ class myUplinkSensor(Entity):
         return TEMP_CELSIUS
 
     @property
+    def device_class(self):
+        if self._unit == '°C' or self._unit == '°F':
+            return 'temperature'
+        elif self._unit == 'A':
+            return 'current'
+        elif self._unit == 'kW':
+            return 'power'
+
+    @property
+    def state_class(self):
+        return 'measurement'
+
+    @property
     def state(self):
+        """Return the state of the sensor"""
+        return self._state
+
+    @property
+    def native_value(self):
         """Return the state of the sensor"""
         return self._state
 
