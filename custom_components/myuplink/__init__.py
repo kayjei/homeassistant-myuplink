@@ -42,5 +42,6 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
     myUplink.authenticate(config[DOMAIN])
     hass.helpers.discovery.load_platform('sensor', DOMAIN, {}, config)
     hass.helpers.discovery.load_platform('number', DOMAIN, {}, config)
+    hass.helpers.discovery.load_platform('select', DOMAIN, {}, config)
 
     return True
