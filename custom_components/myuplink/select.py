@@ -135,7 +135,4 @@ class uplinkDevice(SelectEntity):
             if i["text"] == value:
                 self._state = value
                 send_value = i["value"]
-            elif i["value"] == value:
-                self._state = i["text"]
-                send_value = value
         myUplink.do_patch_sensor(self._device_id, self._sensor_id, send_value, self._config)
