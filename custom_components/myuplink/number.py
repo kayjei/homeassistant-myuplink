@@ -71,7 +71,7 @@ class uplinkDevice(NumberEntity):
         self._device_id = device_id
         self._device_name = device_name
         self._sensor_id = sensor_id
-        self._entity_id = "number." + str(self._device_id).lower() + '_' + str(self._sensor_id).lower()
+        self._entity_id = f"number.{self._device_id.lower()}_{self._sensor_id.lower()}"
         self._name = name
         self._unit = unit
         self._state = value
@@ -95,12 +95,12 @@ class uplinkDevice(NumberEntity):
             self._state = device["value"]
 
     @property
-    def entity_id(self):
+    def unique_id(self):
         """Return the name of the device"""
         return self._entity_id
 
     @property
-    def unit_of_measurement(self) -> str:
+    def native_unit_of_measurement(self) -> str:
         """Return the unit of measurement."""
         return self._unit
 
@@ -130,28 +130,34 @@ class uplinkDevice(NumberEntity):
         }
 
     @property
-    def min_value(self):
+    def native_min_value(self):
         """Return the minimum temperature."""
         return self._min_value
 
     @property
-    def max_value(self):
+    def native_max_value(self):
         """Return the maximum temperature."""
         return self._max_value
 
     @property
-    def step(self):
+    def native_step(self):
         """Return the maximum temperature."""
         return self._scale_value
 
     @property
-    def value(self):
+    def native_value(self):
         """Return the current temperature."""
         return self._state
 
-    def set_value(self, value: float) -> None:
+    @property
+    def extra_state_attributes(self):
+        """Return the attribute(s) of the sensor"""
+        return {
+            "device": self._device_name
+        }
+
+    def set_native_value(self, value: float) -> None:
         """Update the current value."""
         self._state = value
-        #send_value = int(value * 2) #Scale value is 0.5 according to the API, but returns faulty values in the heater
         send_value = int(value)
         myUplink.do_patch_sensor(self._device_id, self._sensor_id, send_value, self._config)
