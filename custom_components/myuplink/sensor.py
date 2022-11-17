@@ -86,14 +86,9 @@ class myUplinkSensor(Entity):
         return self._name
 
     @property
-    def suggested_unit_of_measurement(self):
+    def unit_of_measurement(self):
         """Return the unit of measurement."""
         return self._unit
-
-    @property
-    def temperature_unit(self):
-        """Return the unit of measurement."""
-        return TEMP_CELSIUS
 
     @property
     def device_class(self):
