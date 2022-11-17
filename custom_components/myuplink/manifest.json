@@ -6,5 +6,5 @@
   "codeowners": ["kayjei"],
   "requirements": ["requests"],
   "iot_class": "cloud_polling",
-  "version": 0.3
+  "version": 0.4
 }
