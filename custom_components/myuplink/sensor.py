@@ -86,6 +86,7 @@ class myUplinkSensor(Entity):
         return self._name
 
     @property
+
     def unit_of_measurement(self) -> str:
         """Return the unit of measurement."""
         return self._unit
